@@ -14,6 +14,6 @@
 [GitHub - RT622](https://github.com/RT622/2gou)
 
 1. **<font style="color:#2F8EF4;">创建应用</font>**
-<center>![](/blogs/yysuni/b48dc5991141a949.webp)
+<center>![](/blogs/yysuni/b48dc5991141a949.webp)</center>
 
-1.点击自己的【头像】找到【设置】，进入【设置】页面，然后选择左侧栏最下面的【开发者选项】</center>
+1.点击自己的【头像】找到【设置】，进入【设置】页面，然后选择左侧栏最下面的【开发者选项】
