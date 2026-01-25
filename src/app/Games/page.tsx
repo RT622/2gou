@@ -80,8 +80,8 @@ export default function Page() {
               whileHover={{ scale: 1.03, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
               transition={{ duration: 0.3 }}
               style={{ 
-                width: '300px', 
-                height: '450px', // 2:3 比例
+                width: '200px', 
+                height: '300px', // 2:3 比例
                 borderRadius: '0.75rem',
                 backgroundColor: 'rgba(255, 255, 255, 0.6)',
                 backdropFilter: 'blur(4px)',
@@ -91,45 +91,72 @@ export default function Page() {
                 overflow: 'hidden'
               }}
             >
-              <div style={{ height: '100%' }}>
-                <Link href={`/blog/${article.slug}`} style={{ display: 'block', height: 'calc(100% - 30px)', padding: '16px' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <Link href={`/blog/${article.slug}`} style={{ display: 'block', height: '100%', textDecoration: 'none' }}>
+                  {/* 封面图片 */}
+                  <div style={{ 
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%', 
+                    height: '100%', 
+                    overflow: 'hidden'
+                  }}>
                     {article.cover && (
-                      <div style={{ width: '100%', flex: 1, borderRadius: '0.5rem', marginBottom: '16px', overflow: 'hidden', transition: 'transform 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
-                        <Image
-                          src={article.cover}
-                          alt={article.title}
-                          width={300}
-                          height={300}
-                          style={{ objectFit: 'contain', width: '100%', height: '100%' }}
-                        />
-                      </div>
+                      <Image
+                        src={article.cover}
+                        alt={article.title}
+                        width={200}
+                        height={300}
+                        style={{ 
+                          objectFit: 'cover', 
+                          width: '100%', 
+                          height: '100%'
+                        }}
+                      />
                     )}
-                    <h2 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '12px', wordBreak: 'break-all', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#000', transition: 'color 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.color = '#3b82f6'} onMouseLeave={(e) => e.currentTarget.style.color = '#000'}>
+                  </div>
+                  
+                  {/* 卡片内容 - 无背景，层级在封面之上 */}
+                  <div style={{ 
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: '16px',
+                    transition: 'transform 0.3s ease, opacity 0.3s ease',
+                    transform: 'translateY(0)',
+                    opacity: 1
+                  }}>
+                    <h2 style={{ 
+                      fontSize: '1rem', 
+                      fontWeight: '700', 
+                      marginBottom: '8px', 
+                      wordBreak: 'break-all', 
+                      overflow: 'hidden', 
+                      textOverflow: 'ellipsis', 
+                      whiteSpace: 'nowrap', 
+                      color: '#000',
+                      textShadow: '1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff'
+                    }}>
                       {article.title}
                     </h2>
+                    
+                    {/* 只保留时间 - 右下角 - 紧贴边缘 */}
+                    <div style={{ 
+                      position: 'absolute',
+                      bottom: '8px',
+                      right: '8px'
+                    }}>
+                      <div style={{ 
+                        fontSize: '0.75rem', 
+                        color: '#000',
+                        textShadow: '1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff'
+                      }}>
+                        {new Date(article.date).toLocaleDateString('zh-CN')}
+                      </div>
+                    </div>
                   </div>
                 </Link>
-                <div style={{ padding: '0 16px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  {article.tags && article.tags.length > 0 && (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                      {article.tags.slice(0, 3).map((tag, tagIndex) => (
-                        <span key={tagIndex} style={{ fontSize: '0.7rem', color: '#6b7280', backgroundColor: 'rgba(107, 114, 128, 0.1)', padding: '2px 8px', borderRadius: '12px', cursor: 'pointer', transition: 'all 0.3s ease' }} onClick={() => setSelectedTag(tag)} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.1)'; e.currentTarget.style.color = '#3b82f6'; e.currentTarget.style.transform = 'scale(1.05)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(107, 114, 128, 0.1)'; e.currentTarget.style.color = '#6b7280'; e.currentTarget.style.transform = 'scale(1)'; }}>
-                          {tag}
-                        </span>
-                      ))}
-                      {article.tags.length > 3 && (
-                        <span style={{ fontSize: '0.7rem', color: '#6b7280' }}>
-                          +{article.tags.length - 3}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                  <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
-                    {new Date(article.date).toLocaleDateString('zh-CN')}
-                  </div>
-                </div>
-              </div>
             </motion.div>
           ))}
         </div>
