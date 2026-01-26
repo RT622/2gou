@@ -1,5 +1,33 @@
 [
   {
+    "slug": "ccleaner",
+    "title": "Ccleaner注册表清理和优化软件",
+    "tags": [
+      "注册表清理",
+      "注册表优化",
+      "注册表"
+    ],
+    "date": "2026-01-26T11:04",
+    "summary": "CCleaner 5.70.7909简体中文单文件版",
+    "cover": "/blogs/ccleaner/ba812c25889e41fe.png",
+    "hidden": false,
+    "category": "软件",
+    "downloadLinks": [
+      {
+        "name": "蓝奏云",
+        "url": "https://erli.lanzoub.com/imRmj3h11lwb"
+      },
+      {
+        "name": "百度网盘",
+        "url": "https://pan.baidu.com/s/1GQv8bbp0Xkuxanqva5wzkQ?pwd=2gou"
+      },
+      {
+        "name": "豆包网盘",
+        "url": "https://www.doubao.com/drive/s/bc8969616e9b4696"
+      }
+    ]
+  },
+  {
     "slug": "wiseregistrycleaner",
     "title": "WiseRegistryCleaner注册表清理和优化软件",
     "tags": [
