@@ -1,28 +1,58 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { useConfigStore } from '@/app/(home)/stores/config-store'
+import { loadBlog } from '@/lib/load-blog'
 
 type PasswordVerifyProps = {
-	category: string
+	category?: string
+	articleSlug?: string
 	onVerify: () => void
 }
 
-export function PasswordVerify({ category, onVerify }: PasswordVerifyProps) {
+export function PasswordVerify({ category, articleSlug, onVerify }: PasswordVerifyProps) {
 	const { siteContent } = useConfigStore()
 	const [password, setPassword] = useState('')
 	const [error, setError] = useState('')
+	const [articlePassword, setArticlePassword] = useState<string | null>(null)
+
+	// 加载文章密码配置
+	useEffect(() => {
+		if (articleSlug) {
+			loadBlog(articleSlug).then(blog => {
+				if (blog.config.passwordProtected && blog.config.password) {
+					setArticlePassword(blog.config.password)
+				}
+			}).catch(() => {
+				// 加载失败，保持articlePassword为null
+			})
+		}
+	}, [articleSlug])
 
 	const handleVerify = () => {
-		if (siteContent.passwordAccessPassword && password === siteContent.passwordAccessPassword) {
-			// 验证成功，存储到localStorage，同时存储密码的哈希值
-			const passwordHash = siteContent.passwordAccessPassword
-			localStorage.setItem(`password_${category}`, 'verified')
-			localStorage.setItem(`password_${category}_hash`, passwordHash)
-			onVerify()
-		} else {
-			setError('密码错误，请重新输入')
+		if (articleSlug && articlePassword) {
+			// 文章级密码验证
+			if (password === articlePassword) {
+				// 验证成功，存储到localStorage，同时存储密码的哈希值
+				const passwordHash = articlePassword
+				localStorage.setItem(`article_password_${articleSlug}`, 'verified')
+				localStorage.setItem(`article_password_${articleSlug}_hash`, passwordHash)
+				onVerify()
+			} else {
+				setError('密码错误，请重新输入')
+			}
+		} else if (category && siteContent.passwordAccessPassword) {
+			// 分类级密码验证
+			if (password === siteContent.passwordAccessPassword) {
+				// 验证成功，存储到localStorage，同时存储密码的哈希值
+				const passwordHash = siteContent.passwordAccessPassword
+				localStorage.setItem(`password_${category}`, 'verified')
+				localStorage.setItem(`password_${category}_hash`, passwordHash)
+				onVerify()
+			} else {
+				setError('密码错误，请重新输入')
+			}
 		}
 	}
 
@@ -48,7 +78,9 @@ export function PasswordVerify({ category, onVerify }: PasswordVerifyProps) {
 						×
 					</button>
 				</div>
-				<p className='text-sm text-secondary mb-4'>该分类需要密码访问，请输入密码</p>
+				<p className='text-sm text-secondary mb-4'>
+					{articleSlug ? '该文章需要密码访问，请输入密码' : '该分类需要密码访问，请输入密码'}
+				</p>
 				
 				<div className='space-y-3'>
 					<input
