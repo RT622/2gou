@@ -12,7 +12,8 @@ const iconMatches: IconMatch[] = [
 	{ keywords: ['迅雷', 'xunlei'], iconName: './迅雷.svg' },
 	{ keywords: ['夸克', 'quark'], iconName: './夸克.svg' },
 	{ keywords: ['阿里', 'ali', '阿里云盘'], iconName: './阿里云盘.svg' },
-	{ keywords: ['github'], iconName: './github.svg' }
+	{ keywords: ['github'], iconName: './github.svg' },
+	{ keywords: ['本地', 'local'], iconName: './Local.svg' }
 ]
 
 export function getDownloadIcon(name: string, url: string) {
